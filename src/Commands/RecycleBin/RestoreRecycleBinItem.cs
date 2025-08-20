@@ -54,7 +54,13 @@ namespace PnP.PowerShell.Commands.RecycleBin
                 {
                     if (Force || ShouldContinue(Resources.RestoreRecycleBinItems, Resources.Confirm))
                     {
-                        Connection.PnPContext.Site.RecycleBin.RestoreAll();
+                        var recycleBinItemCollection = RecycleBinUtility.GetRecycleBinItemCollection(ClientContext, null, RecycleBinItemState.None);
+                        for (var i = 0; i < recycleBinItemCollection.Count; i++)
+                        {
+                            var recycleBinItems = recycleBinItemCollection[i];
+                            recycleBinItems.RestoreAll();
+                            ClientContext.ExecuteQueryRetry();
+                        }
                     }
                 }
             }
