@@ -33,6 +33,7 @@ namespace PnP.PowerShell.Commands.RecycleBin
                 if (Force || ShouldContinue(string.Format(Resources.RestoreRecycleBinItem, recycleBinItem.LeafName), Resources.Confirm))
                 {
                     recycleBinItem.Restore();
+                    ClientContext.ExecuteQueryRetry();
                 }
             }
             else
