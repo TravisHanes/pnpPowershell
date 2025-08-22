@@ -23,7 +23,7 @@ namespace PnP.PowerShell.Commands.RecycleBin
         {
             if (ParameterSpecified(nameof(Identity)))
             {
-                var recycleBinItem = Identity.GetRecycleBinItem(Connection.PnPContext);
+                var recycleBinItem = Identity.GetRecycleBinItem(ClientContext.Site);
 
                 if (recycleBinItem == null)
                 {
@@ -33,6 +33,7 @@ namespace PnP.PowerShell.Commands.RecycleBin
                 if (Force || ShouldContinue(string.Format(Resources.RestoreRecycleBinItem, recycleBinItem.LeafName), Resources.Confirm))
                 {
                     recycleBinItem.Restore();
+                    ClientContext.ExecuteQueryRetry();
                 }
             }
             else
