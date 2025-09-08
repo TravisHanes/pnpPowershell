@@ -18,21 +18,35 @@ namespace PnP.PowerShell.Commands.RecycleBin
 
         [Parameter(Mandatory = false)]
         public int RowLimit;
+        private bool ForceOrShouldContinue(string leafName) => Force || ShouldContinue(string.Format(Resources.RestoreRecycleBinItem, leafName), Resources.Confirm);
 
         protected override void ExecuteCmdlet()
         {
             if (ParameterSpecified(nameof(Identity)))
             {
-                var recycleBinItem = Identity.GetRecycleBinItem(Connection.PnPContext);
-
-                if (recycleBinItem == null)
+                // if Identity has item, use it
+                if (Identity.Item != null)
                 {
-                    throw new PSArgumentException("Recycle bin item not found with the ID specified", nameof(Identity));
+                    if (ForceOrShouldContinue(Identity.Item.LeafName))
+                    {
+                        Identity.Item.Restore(); 
+                        ClientContext.ExecuteQueryRetry();
+                    }
                 }
-
-                if (Force || ShouldContinue(string.Format(Resources.RestoreRecycleBinItem, recycleBinItem.LeafName), Resources.Confirm))
+                else
                 {
-                    recycleBinItem.Restore();
+                    var recycleBinItem = Identity.GetRecycleBinItem(Connection.PnPContext);
+
+                    if (recycleBinItem == null)
+                    {
+                        throw new PSArgumentException("Recycle bin item not found with the ID specified", nameof(Identity));
+                    }
+
+                    if (ForceOrShouldContinue(recycleBinItem.LeafName))
+                    {
+                        recycleBinItem.Restore(); 
+                        ClientContext.ExecuteQueryRetry(); 
+                    }
                 }
             }
             else
