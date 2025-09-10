@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 
-## [Current Nightly]
+## [Current nightly]
 
 ### Added
 - Added `-NewFileName` parameter to `Convert-PnPFile` cmdlet to choose custom output file name.
@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 - Fix `Connect-PnPOnline` not working correctly with `-DeviceLogin` in desktop-less environments, such as on a Raspberry Pi [#5058](https://github.com/pnp/powershell/pull/5058)
 - Fix `Get-PnPTenantRestrictedSearchMode` throwing an error in some cases [#5042](https://github.com/pnp/powershell/pull/5042)
 - Fixed issues with `Get-PnPTenantInfo`, `Set-PnPList`, `Remove-PnPSiteSensitivityLabel`, `Set-PnPSiteSensitivityLabel`, `Send-PnPMail` and `Set-PnPWebHeader` cmdlets returning an error [#5059](https://github.com/pnp/powershell/pull/5059)
+- Fixed issue with `Get-PnPChangelog -Nightly` throwing an error [#5070](https://github.com/pnp/powershell/pull/5070)
 
 ### Removed
 
